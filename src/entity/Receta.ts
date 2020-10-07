@@ -1,7 +1,7 @@
-import {Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
-Entity()
-export class Recipe {
+@Entity()
+export class Recipe extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id!: number; // Generar autom el id
@@ -13,7 +13,7 @@ export class Recipe {
     description!: String;
 
     @Column()
-    Ingredients!: String;
+    ingredients!: String;
     /* 
     @Column()
     category!: number; */
