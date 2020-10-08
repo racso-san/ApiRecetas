@@ -19,6 +19,7 @@
   "homepage": "https://github.com/racso-san/ApiRecetas#readme",
   "dependencies": {
     "apollo-server-express": "^2.18.2",
+    "class-validator": "^0.12.2",
     "express": "^4.17.1",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
