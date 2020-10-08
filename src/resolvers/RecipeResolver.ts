@@ -1,10 +1,14 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, ObjectType } from 'type-graphql';
 
 import {Recipe} from "../entity/Receta";
 
 @Resolver()
 export class RecipeResolver {
 
+    @Query(() => [Recipe])
+    getRecipes(){
+        return Recipe.find()
+    }
 
     @Mutation(() => Boolean)
     async createRecipe(
