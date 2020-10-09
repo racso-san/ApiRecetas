@@ -39,6 +39,13 @@ export class RecipeResolver {
         return Recipe.find()
     }
 
+    @Query(() => Recipe)
+    async getOneRecipe(
+        @Arg("id") id:number) {
+        const recipe = await Recipe.findOne(id);
+        return recipe;
+    }
+
     @Mutation(() => Recipe)
     async createRecipe(
         @Arg("variables", () => RecipeInput ) variables: RecipeInput
