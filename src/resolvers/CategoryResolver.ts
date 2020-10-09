@@ -34,4 +34,10 @@ export class CategoryResolver {
         return await newCategory.save();
     }
 
+    @Mutation(() => Boolean)
+    async deleteCategory(@Arg("id", ()=> Int) id: number) {
+        await Category.delete(id);
+        return true;
+    }
+
 }
