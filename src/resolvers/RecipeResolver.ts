@@ -2,6 +2,8 @@ import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType, Int } fro
 //import { IsEmail, IsNotEmpty } from 'class-validator';
 
 import { Recipe } from '../entity/Receta';
+import { In } from 'typeorm';
+
 
 @InputType() // Se pasa como argumento desde graphql
 class RecipeInput {
@@ -14,6 +16,19 @@ class RecipeInput {
 
     @Field()
     ingredients!: string
+}
+
+@InputType() // Se pasa como argumento desde graphql
+class RecipeUpdateInput {
+
+    @Field(() => String, {nullable:true}) // Para no tener que modificar todos los campos
+    name?: string;
+
+    @Field(() => String, {nullable:true})
+    description?:string
+
+    @Field(() => String, {nullable:true})
+    ingredients?: string
 }
 
 @Resolver()
@@ -35,6 +50,15 @@ export class RecipeResolver {
     @Mutation(() => Boolean)
     async deleteRecipe(@Arg("id", ()=> Int) id: number) {
         await Recipe.delete(id);
+        return true;
+    }
+
+    @Mutation(() => Boolean)
+    async updateRecipe(
+        @Arg("id", () => Int) id:number,
+        @Arg("fields", () => RecipeUpdateInput) Fields: RecipeUpdateInput
+    ) {
+        await Recipe.update({id}, Fields);
         return true;
     }
 
