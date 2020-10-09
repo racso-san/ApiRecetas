@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType, Int } from 'type-graphql';
 //import { IsEmail, IsNotEmpty } from 'class-validator';
 
 import { Recipe } from '../entity/Receta';
@@ -30,6 +30,12 @@ export class RecipeResolver {
     ) {
         const newRecipe =  Recipe.create(variables);
         return await newRecipe.save();
+    }
+
+    @Mutation(() => Boolean)
+    async deleteRecipe(@Arg("id", ()=> Int) id: number) {
+        await Recipe.delete(id);
+        return true;
     }
 
 }
