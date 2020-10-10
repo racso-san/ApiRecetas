@@ -31,6 +31,7 @@ class RecipeUpdateInput {
     ingredients?: string
 }
 
+
 @Resolver()
 export class RecipeResolver {
 

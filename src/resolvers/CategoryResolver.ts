@@ -11,6 +11,7 @@ class CategoryInput {
     name!: string
 }
 
+
 @Resolver()
 export class CategoryResolver {
 
@@ -37,6 +38,15 @@ export class CategoryResolver {
     @Mutation(() => Boolean)
     async deleteCategory(@Arg("id", ()=> Int) id: number) {
         await Category.delete(id);
+        return true;
+    }
+
+    @Mutation(() => Boolean)
+    async updateCategory(
+        @Arg("id", () => Int) id:number,
+        @Arg("fields", () => CategoryInput) Fields: CategoryInput
+    ) {
+        await Category.update({id}, Fields);
         return true;
     }
 
