@@ -2,9 +2,9 @@ import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 
-import { PingResolver } from "./resolvers/ping";
 import { RecipeResolver } from "./resolvers/RecipeResolver";
 import { CategoryResolver } from "./resolvers/CategoryResolver";
+import {UserResolver} from "./resolvers/UserResolver";
 
 
 export async function startServer() {
@@ -13,8 +13,8 @@ export async function startServer() {
 
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PingResolver,RecipeResolver,CategoryResolver],
-    //  validate: false
+      resolvers: [RecipeResolver,CategoryResolver,UserResolver],
+      validate: false
     }),
     context: ({ req, res }) => ({ req, res })
   });
