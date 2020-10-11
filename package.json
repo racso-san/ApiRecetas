@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/racso-san/ApiRecetas#readme",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "apollo-server-express": "^2.18.2",
+    "bcrypt": "^5.0.0",
     "class-validator": "^0.12.2",
     "express": "^4.17.1",
     "mysql": "^2.18.1",
