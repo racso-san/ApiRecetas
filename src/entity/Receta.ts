@@ -1,5 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, JoinColumn } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
+import { Category } from './Categoria';
 
 @ObjectType()
 @Entity()
@@ -21,7 +22,12 @@ export class Recipe extends BaseEntity {
     @Column()
     ingredients!: String;
     /*
-    @Field() 
-    @Column()
-    category!: number; */
+    @Column({ nullable: true })
+    category: number; */
+
+    @ManyToOne(type => Category , category => category.recipe)
+   // @JoinColumn()
+    @Field(() => Category , {nullable:true})
+    category!: Category; 
+
 }

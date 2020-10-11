@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType, Int } fro
 //import { IsEmail, IsNotEmpty } from 'class-validator';
 
 import { Recipe } from '../entity/Receta';
+import { Category } from '../entity/Categoria';
 import { In } from 'typeorm';
 
 
@@ -16,6 +17,9 @@ class RecipeInput {
 
     @Field()
     ingredients!: string
+/*
+    @Field(() => Category , {nullable:true})
+    category!: Category; */
 }
 
 @InputType() // Se pasa como argumento desde graphql
@@ -37,7 +41,8 @@ export class RecipeResolver {
 
     @Query(() => [Recipe])
     getRecipes(){
-        return Recipe.find()
+        const cat = new Category
+        return Recipe.find(cat);
     }
 
     @Query(() => Recipe)
