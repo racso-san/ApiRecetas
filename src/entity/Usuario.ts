@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, JoinColumn,BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity,BeforeInsert } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 const bcrypt = require('bcrypt'); // Importar encriptacion de pass
 
@@ -33,5 +33,14 @@ export class User extends BaseEntity {
             throw err;
       }
     }
-
+    
 }
+/*
+const authenticate = async function( User ) {
+  const user = await this.findOne( {email} ); // busca si hay un usuario con ese email
+  if(!user) throw new Error('Email or password are wrong');
+
+  const result = await bcrypt.compare(password, user.password); // comparar el pass ingresado con el pass de la bd
+  if(!result) throw new Error('Email or password are wrong');
+};                     
+*/
