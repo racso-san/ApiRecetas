@@ -31,21 +31,8 @@ Tecnologias utilizadas:
 
 2. You have various queries and mutations to use
 
-    Queries: 
-    getRecipes  
-    getOneRecipe 
-    getCategories 
-    getOneCategory 
-    getMyRecipes
+    Queries: getRecipes, getOneRecipe, getCategories, getOneCategory, getMyRecipes
 
-    Mutations:
-    createRecipe  
-    createCategory 
-    updateRecipe  
-    updateCategory
-    deleteRecipe 
-    deleteCategory
-    signUp
-    login
+    Mutations:createRecipe, createCategory, updateRecipe, updateCategory, deleteRecipe, deleteCategory, signUp, login
 
 
