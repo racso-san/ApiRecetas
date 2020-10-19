@@ -12,7 +12,7 @@ Tecnologias utilizadas:
     • JWT
     • MySql
 
----
+
 ## Installation
 
 1. Clonar el repositorio 
@@ -20,9 +20,9 @@ Tecnologias utilizadas:
 
 2. Abrir el proyecto con un editor de codigo
 
-3. Ir a src -> config -> typeorm.ts -> Configure la base de datos que utilizara
+3. Configure la base de datos que utilizara
 
-• await createConnection({
+await createConnection({
       type:"mysql",
       host: "localhost",
       port: 3306,
