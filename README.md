@@ -21,7 +21,7 @@ Tecnologias utilizadas:
 3. Ir a src -> config -> typeorm.ts
    Configure la base de datos que utilizara
 
-    await createConnection({
+await createConnection({
       type:"mysql",
       host: "localhost",
       port: 3306,
