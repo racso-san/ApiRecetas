@@ -22,18 +22,17 @@ Tecnologias utilizadas:
 
 3. Ir a src -> config -> typeorm.ts -> Configure la base de datos que utilizara
 
-"await createConnection"({
-      "type":"mysql",
-      "host": "localhost",
-      "port": 3306,
-      "username": "root",
-      "password": "1234",
-      "database": "nombre-database",
-      "entities": [
-        path.join(__dirname, '../entity/**/**.ts')
-      ],
-      "synchronize": true
-    });
-```
+await createConnection({
+type:"mysql",
+host: "localhost",
+port: 3306,
+username: "root",
+password: "1234",
+database: "nombre-database",
+entities: [
+path.join(__dirname, '../entity/**/**.ts')
+],
+synchronize: true
+});
 
 
