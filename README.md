@@ -12,7 +12,7 @@ Tecnologias utilizadas:
     • JWT
     • MySql
 
-
+---
 ## Installation
 
 1. Clonar el repositorio 
@@ -20,19 +20,32 @@ Tecnologias utilizadas:
 
 2. Abrir el proyecto con un editor de codigo
 
-3. Configure la base de datos que utilizara
+3. Ir a src -> config -> `typeorm.ts` -> Configure la base de datos que utilizara
 
-await createConnection({
-      type:"mysql",
-      host: "localhost",
-      port: 3306,
-      username: "root",
-      password: "1234",
-      database: "nombre-database",
-      entities: [
-        path.join(__dirname, '../entity/**/**.ts')
-      ],
-      synchronize: true
-    });
+4. Ejecutar en consola `npm run dev`
+
+
+## Testing the queries
+
+1. Enter to http://localhost:3000/graphql.
+
+2. You have various queries and mutations to use:
+
+Queries: 
+getRecipes.  
+getOneRecipe. 
+getCategories. 
+getOneCategory. 
+getMyRecipes.
+
+Mutations:
+createRecipe.  
+createCategory. 
+updateRecipe.  
+updateCategory.
+deleteRecipe.  
+deleteCategory.
+signUp.
+login.
 
 
