@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, JoinColumn, JoinTable } from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, OneToMany} from "typeorm";
 import { Field, ObjectType } from 'type-graphql';
 import {Recipe} from "./Receta";
 
@@ -15,6 +15,6 @@ export class Category extends BaseEntity {
     @Column()
     name!: String;
 
-    @OneToMany(type => Recipe, recipe => recipe.category, {eager:true})
-    recipe!: Recipe[]; 
+    @OneToMany(() => Recipe, recipe => recipe.category)
+    recipe!: Recipe[];
 }

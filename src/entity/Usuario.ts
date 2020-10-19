@@ -1,37 +1,42 @@
-import express from "express";
-import { ApolloServer, AuthenticationError } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity,BeforeInsert, OneToMany } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
+import {Recipe} from "./Receta";
+const bcrypt = require('bcrypt'); // Importar encriptacion de pass
 
-import { RecipeResolver } from "./resolvers/RecipeResolver";
-import { CategoryResolver } from "./resolvers/CategoryResolver";
-import { UserResolver } from "./resolvers/UserResolver";
 
-import fs from 'fs';
-import path from 'path';
+@ObjectType()
+@Entity()
+export class User extends BaseEntity {
 
-export async function startServer() {
-  const jwt = require('jsonwebtoken');
-  const app = express();
+    @Field()
+    @PrimaryGeneratedColumn()
+    id!: number;
 
-  const server = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [RecipeResolver, CategoryResolver, UserResolver],
-      validate: false
-    }),
-    context: ({ req }) => {
-      let token = req.headers.authorization || '';
-      token = token.split("Bearer ")[1];
-      var privateKey = fs.readFileSync(path.normalize(__dirname + '/config/private.key'), { encoding: 'utf8' });
-      try {
-        let user =   jwt.verify(token, privateKey);
-        return user.data;
-      } catch (error) {
-        return null;
+    @Field()
+    @Column()
+    name!: String;
+
+    @Field()
+    @Column()
+    email!: String;
+
+    @Field()
+    @Column()
+    password!: String;
+
+    @OneToMany(() => Recipe, recipe => recipe.category)
+    recipe!: Recipe[];
+
+
+    @BeforeInsert()
+    async beforeInsert() {
+      if(this.password === undefined)return; // Si no hay pass no encripta nada
+      try{
+        this.password = await bcrypt.hash(this.password, 10);
+      } catch(err){
+            console.log(err);
+            throw err;
       }
-    },
-  });
-
-  server.applyMiddleware({ app, path: "/graphql" });
-
-  return app;
+    }
+    
 }
