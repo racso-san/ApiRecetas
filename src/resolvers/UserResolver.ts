@@ -1,6 +1,10 @@
-import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType, Ctx } from 'type-graphql';
 import { User } from '../entity/Usuario';
 const bcrypt = require('bcrypt');
+import { Recipe } from '../entity/Receta';
+import { Category } from '../entity/Categoria';
+
+import { Context } from 'koa';
 
 @InputType() // Se pasa como argumento desde graphql
 class UserInput {
@@ -29,8 +33,45 @@ class UserUpdateInput {
 }
 */
 
+@ObjectType()
+class MyRecipeOutput {
+    @Field()
+    name!: String
+    @Field()
+    description!: String
+    @Field()
+    ingredients!: String
+    @Field()
+    recipe!: Recipe
+    @Field()
+    category!: Category
+}
+
 @Resolver()
 export class UserResolver {
+
+    @Query(() => [MyRecipeOutput]!, { nullable: true })
+    async getMyRecipes(
+        //@Arg("id") id: number,
+        @Ctx() ctx: Context
+    ) {
+        if (ctx.name) {
+            try {
+                let recipe = await Recipe.find({
+                    relations: ['user', 'category'],
+                    where: {
+                        user: ctx.id
+                    }
+                });
+                return recipe;
+            } catch (err) {
+                console.log(err);
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     @Mutation(() => User)
     async signUp(
