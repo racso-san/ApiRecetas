@@ -1,14 +1,16 @@
 import { Resolver, Query, Mutation, Arg, ObjectType, Field, InputType, Ctx } from 'type-graphql';
 import { User } from '../entity/Usuario';
-const bcrypt = require('bcrypt');
 import { Recipe } from '../entity/Receta';
 import { Category } from '../entity/Categoria';
 
+import fs from 'fs';
+import path from 'path';
+const jwt = require('jsonwebtoken');
 import { Context } from 'koa';
+const bcrypt = require('bcrypt');
 
 @InputType() // Se pasa como argumento desde graphql
 class UserInput {
-
     @Field()
     name!: String;
 
@@ -18,20 +20,32 @@ class UserInput {
     @Field()
     password!: String;
 }
-/*
-@InputType() 
-class UserUpdateInput {
+@InputType()
+class LoginInput {
 
-    @Field(() => String, {nullable:true})
-    name!: String;
-
-    @Field(() => String, {nullable:true})
+    @Field()
     email!: String;
 
-    @Field(() => String, {nullable:true})
+    @Field()
     password!: String;
 }
-*/
+
+@ObjectType()
+class TokenOutput {
+    @Field()
+    token!: String
+}
+@ObjectType()
+class SignUpOutput {
+    @Field()
+    id!: Number;
+
+    @Field()
+    name!: String;
+
+    @Field()
+    email!: String;
+}
 
 @ObjectType()
 class MyRecipeOutput {
@@ -46,6 +60,7 @@ class MyRecipeOutput {
     @Field()
     category!: Category
 }
+
 
 @Resolver()
 export class UserResolver {
@@ -73,27 +88,53 @@ export class UserResolver {
         }
     }
 
-    @Mutation(() => User)
+    @Mutation(() => SignUpOutput!, { nullable: true })
     async signUp(
-        @Arg("variables", () => UserInput ) variables: UserInput
+        @Arg("variables", () => UserInput) variables: UserInput,
+        @Ctx() ctx: Context
     ) {
-        const newUser =  User.create(variables);
-        return await newUser.save();
-    }
+        if (ctx.name) {
 
-    @Mutation(() => User)
-    async logIn(
-        @Arg("email") email:string) {
-        try{    
-            const user = await User.findOne(email);
-           /* if(!user){ return console.error(); }
-          
-            if(!valid){ return console.error(); } */    
-            return user;
-        }catch(err){
-            console.log(err);
+            try {
+                if (variables.password && variables.password) {
+                    const newUser = User.create(variables);
+                    return await newUser.save();
+                }
+                return null;
+            } catch (err) {
+                console.log(err);
+                return null;
+            }
+        } else {
             return null;
         }
+
     }
-    
+
+    @Mutation(() => TokenOutput!, { nullable: true })
+    async logIn(
+        @Arg("variables", () => LoginInput) variables: LoginInput,
+        @Ctx() ctx: Context) {
+        {
+
+            try {
+
+                const user = await User.findOne({ email: variables.email });
+                if (!user) return null
+                const match = await bcrypt.compare(variables.password, user.password);
+                if (!match) return null;
+                var privateKey = fs.readFileSync(path.normalize(__dirname + '/../config/private.key'), { encoding: 'utf8' });
+
+                var token = jwt.sign({ data: { id: user.id, name: user.name, email: user.email } }, privateKey, { expiresIn: '12h' });
+                return { token: token };
+
+            } catch (err) {
+                console.log(err);
+                return null;
+            }
+
+        }
+
+    }
 }
+

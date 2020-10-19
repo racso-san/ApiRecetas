@@ -1,0 +1,68 @@
+###########################################################################
+mutation {
+  logIn(variables: { email: "mail@mail.com", password: "1234567" }) {
+    token
+  }
+}
+###########################################################################
+ mutation {
+    signUp(
+      variables:{name:"Test try",email:"mail.test.com",password:"123"}
+    ) {
+      id
+      name
+      email
+    }
+  }
+###########################################################################
+{  
+	getMyRecipes {
+    name
+    description
+    ingredients
+    category {
+      name
+    }
+  }
+}
+###########################################################################
+{
+  getCategories {
+    id
+    name
+  }
+}
+###########################################################################
+{
+  getOneCategory(id: 1) {
+    id
+    name
+  }
+}
+###########################################################################
+mutation {
+  createCategory(variables:{name: "teborrare"}) {
+    id
+    name
+  }
+}
+###########################################################################
+mutation {
+  deleteCategory(id:0) 
+}
+###########################################################################
+mutation {
+  updateCategory(id:1, fields:{name:"te cambie"}) 
+}
+###########################################################################
+mutation {
+  updateRecipe(
+    id: 1
+    fields: {
+      name: "te cambie"
+      description: "Cambiamos esta receta"
+      ingredients:"Mandamos nueva categoria"
+      category: "Postres"
+    }
+  )
+}
