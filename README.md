@@ -22,7 +22,9 @@ Used technology:
 
 3. Go to src -> config -> `typeorm.ts` -> Configure the database to use
 
-4. Run in console `npm run dev` 
+4. If you have any errors with the packages, delete the `node_modules` folder and install the dependencies by typing `npm i` in console right in the cloned folder
+
+5. Run in console `npm run dev` 
 
 
 ## Testing the queries
